@@ -115,9 +115,5 @@ gen_sent_bicount_alt('yes')
 gen_sent_bicount_alt('about')
 
 # The problem for this approach is
-# 1) bigram count that the bigram count matrix does not reflect the sequential information of each bigram.
-# For example, 'i' followed by 'am' should be the most likely but not the way around ('am' followed by 'i')
-# However, the bigram count matrix does not differentiate the two.
-# This is why a sentence such as 'i am i am i am ...' is generated using the bigram count matrix.
-# The way to fix this problem is as the following:
+# 1) stop words are included?
 
