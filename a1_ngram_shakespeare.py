@@ -8,15 +8,15 @@ import numpy as np
 
 
 #1. File reading
-with open('shakespeare.txt', 'r') as f:
+with open('shakespeare.txt', 'r') as f: # using "with", the file will be automatically closed after.
     lines = f.readlines()
 
 #2. The 1st clean-up: lower case
 lines_1 = [ x.lower() for x in lines]
 
 #3. The 2nd clean-up: remove non alphabets
-# lines_2 = [ re.sub(r'\W+', ' ', x) for x in lines_1 ]
-lines_2 = [ re.sub(r'[^A-Za-z]+', ' ', x) for x in lines_1 ]
+lines_2 = [ re.sub(r'\W+', ' ', x) for x in lines_1 ]
+# lines_2 = [ re.sub(r'[^A-Za-z]+', ' ', x) for x in lines_1 ]
 
 #4. Split the string along the spaces into a list of sub-strings -> create a dictionary
 lines_split = [ x.split(' ') for x in lines_2] # split delimited by a whitespace
@@ -48,6 +48,8 @@ bigram = list(set(pair_list)) # unique list of bigram
 
 # create an empty table for bigram count
 bi_count = np.zeros((len(unigram), len(unigram)))
+# More efficient way to do is to make a sparse matrix where only nonzero elements are used for matrix creation 
+# and other indices are implicitly zero.
 
 for pair in pair_list:
     left_word = pair[0]; right_word = pair[1] # left and right word in a word pair
@@ -115,5 +117,8 @@ gen_sent_bicount_alt('yes')
 gen_sent_bicount_alt('about')
 
 # The problem for this approach is
-# 1) stop words are included?
+# 1) Too many stop words are included? (not a critical point)
+# 2) common words have a tendency to be followed by another common word when it comes to bigram counting.
+#   => common bigram loop
+# 3) Sentence begin & end are not considered. N-gram counting should be carried out within a sentence.
 
